@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %} 
+
+{% block title %}Products{% endblock %} 
+
+{% block content %}
+
+<h1>
+  List Of Products (<a href="/api/products" class="btn btn-light">API</a>)
+</h1>
+<hr />
+
+<a href="{% url 'product:product_new' %}">
+  <button class="btn btn-success">Create</button>
+</a>
+
+<form action="?" method="GET" style="margin-bottom: 20px; float: right">
+  <label for="product" style="color: #fff; font-size: 19px">Search: </label>
+  <input
+    type="text"
+    name="product"
+    value="{{ request.GET.product }}"
+    class="p1 border"
+    autocomplete="off"
+    placeholder="Product Name"
+    style="border-radius: 5px; padding: 3px"
+  />
+  <button type="submit" class="btn btn-success">Find</button>
+  <a href="{% url 'product:product_list' %}" class="btn btn-light">Clear</a>
+</form>
+
+<table>
+  <thead>
+    <tr class="table100-head">
+      <th class="column1">ID</th>
+      <th class="column2">Name</th>
+      <th class="column3">Price</th>
+      <th class="column4">Minimum</th>
+      <th class="column5">Amount Per Package</th>
+      <th class="column6">Max Availability</th>
+      <th class="column7">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td class="column1" id="product_id_{{product.id}}">{{product.id}}</td>
+      <td class="column2">{{product.name}}</td>
+      <td class="column3">R$ {{product.price}}</td>
+      <td class="column4">{{product.minimum}}</td>
+      <td class="column5">{{product.amount_per_package}}</td>
+      <td class="column6">{{product.max_availability}}</td>
+      <td class="column7">
+        <a
+        href="{% url 'product:cart_list' %}"
+        style="color: #e0bf00"
+        >
+        <i
+          class="fa fa-cart-plus"
+          style="padding-right: 15px; color: #007AA5"
+          title="Add to Cart"
+        ></i>
+        </a>
+        <a
+          href="{% url 'product:product_detail' product.pk %}"
+          style="color: #e0bf00"
+        >
+          <i
+            class="fa fa-refresh"
+            style="padding-right: 15px"
+            title="Update"
+          ></i>
+        </a>
+        <a
+          href="{% url 'product:product_delete' product.pk %}"
+          style="color: #e00000"
+        >
+          <i class="fa fa-trash" title="Delete"></i>
+        </a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6">There are no registered products.</td>
+    </tr>
+    {% endfor%}
+    <tr></tr>
+  </tbody>
+</table>
+{% endblock %}

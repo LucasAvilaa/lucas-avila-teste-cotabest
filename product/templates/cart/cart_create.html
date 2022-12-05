@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %} 
+
+{% block title %}Cart{% endblock %} 
+
+{% block content %}
+
+<h2 class="form_name">Insert/Update Product in the cart</h2>
+<div class="container">
+  <div class="box">
+    <form action="." method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit" class="btn btn-success">
+        <a>Send</a>
+      </button>
+      <button class="btn btn-light">
+        <a href="{% url 'product:cart_list' %}">Cancel</a>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

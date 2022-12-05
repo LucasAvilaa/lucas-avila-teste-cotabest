@@ -1,0 +1,151 @@
+{% extends 'base/base.html' %} 
+
+{% block title %}Shopping Cart{% endblock %} 
+
+{%block content %}
+
+<h1>Shopping Cart (<a href="/api/cart" class="btn btn-light">API</a>)</h1>
+<hr />
+
+<a href="{% url 'product:cart_new' %}">
+  <button class="btn btn-success">Add Product</button>
+</a>
+
+<table style="margin-top: 20px">
+  <thead>
+    <tr class="table100-head">
+      <th class="column1">Product</th>
+      <th class="column3">Minimum</th>
+      <th class="column5">Amount Per Package</th>
+      <th class="column2">Price</th>
+      <th class="column4">Quantity</th>
+      <th class="column6">Subtotal</th>
+      <th class="column7">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in cart %}
+    <tr>
+      <td class="column1" title="{{product.product_id}}">
+        {{product.product_id}}
+      </td>
+      <td class="column3" title="{{product.minimum}}">{{product.minimum}}</td>
+      <td class="column5" title="{{product.amount_per_package}}">
+        {{product.amount_per_package}}
+      </td>
+      <td class="column2" title="{{product.price}}">R$ {{product.price}}</td>
+      <td class="column4" title="{{product.quantity}}">{{product.quantity}}</td>
+      <td class="column6" title="{{product.subtotal}}">
+        R$ {{product.subtotal}}
+      </td>
+      <td class="column7">
+        <a
+          href="{% url 'product:cart_detail' product.pk %}"
+          style="color: #e0bf00"
+        >
+          <i
+            class="fa fa-refresh"
+            style="padding-right: 15px"
+            title="Update"
+          ></i>
+        </a>
+        <a
+          href="{% url 'product:cart_delete' product.pk %}"
+          style="color: #e00000"
+        >
+          <i class="fa fa-trash" title="Delete"></i>
+        </a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6" style="font-size: 18px">
+        There are no registered products.
+      </td>
+    </tr>
+    {% endfor%}
+    <tr></tr>
+  </tbody>
+</table>
+
+<div style="float: right; margin: 20px">
+  <h1 style="color: #fff">TOTAL: R$ <span id="total"></span></h1>
+  <button
+    class="btn btn-info"
+    style="float: right; width: 300px; height: 50px"
+    onclick="start_finalize_purchase()"
+  >
+    Finalize Purchase
+  </button>
+</div>
+
+<script>
+
+  var form_finalize_purchase = document.getElementById("form_finalize_purchase");
+  var cart_total = document.getElementById("total");
+  var total = 0;
+  var form_total = document.getElementById("total_form");
+  var hashcode = "";
+
+  function finalize_purchase() {
+    for (var i = 0; i < 4; i++){
+      hashcode += geraNumeroUnico()
+      if (i != 3){
+        hashcode += "-"
+      }
+    }
+
+    alert(
+      "Purchase completed successfully \n\n" +
+        "ID Purchase: " +
+        hashcode +
+        "\nTotal Price: R$" +
+        cart_total.innerHTML
+    );
+  }
+
+  function geraNumeroUnico() {
+    return Math.round(Math.random() * 1e8) + 1000;
+  } 
+
+  function start_finalize_purchase() {
+    if (cart_total.innerHTML == 0) {
+      alert("Select a product to complete the purchase");
+    } else {
+      form_total.value = cart_total.innerHTML;
+      form_finalize_purchase.style.display = "flex";
+    }
+  }
+  function close_form_finalize_purchase() {
+    form_finalize_purchase.style.visibility =
+      "hidden";
+  }
+  async function calculate_total() {
+      let response = await fetch("/api/cart/");
+      let data = await response.json();
+      
+      if (!data.length){
+        cart_total.innerHTML = 0;
+      }
+      else{
+        for (i in data) {
+            search_product(data[i]["product_id"], data[i]["quantity"])
+        }
+      }
+  }
+  
+  async function search_product(id, quantity) {
+      let response = await fetch("/api/products/"+ id);
+      let data = await response.json();
+      total += data["price"] * quantity
+  
+      cart_total.innerHTML = total;
+  }
+  calculate_total()
+</script>
+
+{% endblock %} 
+
+{% block other_content %} 
+  {% include 'cart/finalize_purchase.html' %} 
+{% endblock %}

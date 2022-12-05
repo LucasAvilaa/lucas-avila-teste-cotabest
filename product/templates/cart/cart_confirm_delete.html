@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %} 
+
+{% block title %}Delete Cart{% endblock %} 
+
+{%block content %}
+<h2 class="form_name">Delete product from cart</h2>
+
+<div class="container">
+  <div class="box">
+    <form method="post">
+      {% csrf_token %}
+      <p>Are you sure you want to delete product {{ object }} from the cart?</p>
+      <button type="submit" class="btn btn-danger">
+        <a>Confirm</a>
+      </button>
+      <button class="btn btn-light">
+        <a href="{% url 'product:cart_list' %}">Cancel</a>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

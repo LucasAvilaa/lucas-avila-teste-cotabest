@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %} 
+
+{% block title %}Error{% endblock %} 
+
+{%block content %}
+
+<h2 class="form_name" style="color: #330000">Validation Error</h2>
+
+<div class="container">
+    <div class="box" style="width: auto">
+      <p style="color: #cc0000;">{{ error }}</p>
+  </div>
+</div>
+{% endblock %} 

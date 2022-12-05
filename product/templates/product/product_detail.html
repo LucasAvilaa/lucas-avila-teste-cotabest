@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %} 
+
+{% block title %}Products Detail{% endblock %} 
+
+{%block content %}
+<h2 class="form_name">Detail Product</h2>
+
+<div class="container">
+  <div class="box">
+    <form action="." method="get" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>
+        <label for="name">
+          Product:
+          <input type="text" id="name" value="{{ object.name }}" disabled />
+        </label>
+      </p>
+      <p>
+        <label for="price ">
+          Price:
+          <input type="text" id="price " value="{{ object.price  }}" disabled />
+        </label>
+      </p>
+      <p>
+        <label for="minimum ">
+          Minimum:
+          <input
+            type="text"
+            id="minimum "
+            value="{{ object.minimum  }}"
+            disabled
+          />
+        </label>
+      </p>
+      <p>
+        <label for="amount_per_package ">
+          Amount per package:
+          <input
+            type="text"
+            id="amount_per_package "
+            value="{{ object.amount_per_package  }}"
+            disabled
+          />
+        </label>
+      </p>
+      <p>
+        <label for="max_availability ">
+          Max availability:
+          <input
+            type="text"
+            id="max_availability "
+            value="{{ object.max_availability  }}"
+            disabled
+          />
+        </label>
+      </p>
+      <button class="btn btn-warning">
+        <a href="{% url 'product:product_update' object.pk %}">Edit</a>
+      </button>
+      <button class="btn btn-light">
+        <a href="{% url 'product:product_list' %}">Return</a>
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

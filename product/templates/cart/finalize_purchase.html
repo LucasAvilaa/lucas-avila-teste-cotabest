@@ -1,0 +1,36 @@
+<div id="form_finalize_purchase" class="container form_finalize">
+  <div class="box">
+    <form action="." enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>
+        <h3 style="text-align: center">Finalize Purchase</h1>
+      </p>
+      <p>
+        <label for="payment_method">
+          Payment Method:
+          <select name="payment_method" style="padding-right: 60px;">
+            <option value="debit" selected>Debit</option>
+            <option value="credit">Credit</option>
+            <option value="cash">Cash</option>
+          </select>
+        </label>
+      </p>
+      <div>
+        <div>
+          <p>
+            <label for="total_input">
+              TOTAL: R$ <input type="text" name="total_input" id="total_form" disabled style="width: 200px;">
+            </label>
+          </p>
+        </div>
+        <button class="btn btn-success" onclick="finalize_purchase()">
+          <a href="{% url 'product:finalize_purchase' %}" style="color: white">Confirm</a>
+        </button>
+        <button class="btn btn-light" style="border-color: rgb(157, 157, 157)"  onclick="close_form_finalize_purchase()">
+          Cancel
+        </button>
+
+      </div>
+    </form>
+  </div>
+</div>

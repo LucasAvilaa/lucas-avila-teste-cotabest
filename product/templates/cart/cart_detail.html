@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %} 
+
+{% block title %}Cart Detail{% endblock %} 
+
+{%block content %}
+<h2 class="form_name">Detail Product</h2>
+
+<div class="container">
+  <div class="box">
+    <form action="." method="get" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>
+        <label for="product_id">
+          Product:
+          <input
+            type="text"
+            id="product_id"
+            value="{{ object.product_id }}"
+            disabled
+          />
+        </label>
+      </p>
+      <p>
+        <label for="quantity ">
+          Quantity:
+          <input
+            type="text"
+            id="quantity "
+            value="{{ object.quantity  }}"
+            disabled
+          />
+        </label>
+      </p>
+      <button class="btn btn-warning">
+        <a href="{% url 'product:cart_update' object.pk %}">Edit</a>
+      </button>
+      <button class="btn btn-light">
+        <a href="{% url 'product:cart_list' %}">Return</a>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product:product_list' %}">
+          <i class="fa fa-book"></i>
+          Products
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product:cart_list' %}">
+          <i class="fa fa-shopping-cart"></i>
+          Cart
+        </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/api/">
+          <i class="fa fa-database"></i>
+          List API
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
